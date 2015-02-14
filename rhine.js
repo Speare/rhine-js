@@ -31,11 +31,31 @@ Rhine.prototype.run = function(request, onsuccess, onerror) {
 	}
 }
 
+Rhine.prototype.run_sync = function(request) {
+    var k = Object.keys(request)[0];
+	var http = new XMLHttpRequest();
+	http.open("POST", "https://api.rhine.io", false);
+	http.send(JSON.stringify({'request': {'method': request, 'key': this.apikey}}));
+	return JSON.parse(http.response).success[k];
+}
+
 Rhine.prototype.pipeline = function(requests, onsucc, onerr) {
   var ks = []
   for (i = 0; i < requests.length; i++) 
   ks.push(Object.keys(requests[i]));
   this.run({'pipelined': requests}, function(d) { var x = []; for (i = 0; i < d.length; i++) { x.push(d[i][ks[i]]); }; onsucc(x); }, onerr);
+}
+
+Rhine.prototype.pipeline_sync = function(requests, onsucc, onerr) {
+  var ks = []
+  for (i = 0; i < requests.length; i++) 
+  ks.push(Object.keys(requests[i]));
+  var rs = this.run({'pipelined': requests});
+  var x = [];
+  for (i = 0; i < rs.length; i++) {
+  	x.push(rs[i][ks[i]]);
+  }
+  return x;
 }
 
 var rhine = {

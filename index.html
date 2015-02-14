@@ -38,10 +38,9 @@
 	<script type="text/javascript">
 		///////////////////////////////////////////////// ENTER API KEY HERE //////////////////////////
 		var apikey = '';
-		if(!apikey) {
+		if(apikey.length == 0) {
 			alert('Make sure you enter your API key on line 40 in index.html!')
 		}
-		
 		
 		var client = new Rhine(apikey, false);
 		
