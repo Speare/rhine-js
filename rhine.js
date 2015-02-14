@@ -8,10 +8,11 @@ function Rhine(apikey, ssl) {
 }
 
 Rhine.prototype.toString = function() {
-	return 'RhineInstance<user:{0}>'.format(this.username);
+	return 'RhineInstance<apikey:' + this.apikey + '>';
 };
 
 Rhine.prototype.run = function(request, onsuccess, onerror) {
+  var k = Object.keys(request)[0];
 	var http = new XMLHttpRequest();
 	http.open("POST", "https://api.rhine.io", true);
 	// http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -20,10 +21,9 @@ Rhine.prototype.run = function(request, onsuccess, onerror) {
 	http.timeout = 10000;
     http.ontimeout = onerror;
 
-	console.log(JSON.stringify(request));
 	http.send(JSON.stringify({'request': {'method': request, 'key': this.apikey}}));
 	http.onload = function (e) {
-		onsuccess(JSON.parse(http.response));
+		onsuccess(JSON.parse(http.response).success[k]);
 	}
 	
 	http.onerror = function(e) {
@@ -38,7 +38,7 @@ Rhine.prototype.pipeline = function(requests) {
 var rhine = {
 	subclass 	: function(e1, e2) 	{ return { 'subclass' 	: [e1, e2] }; }, 
 	distance 	: function(e1, e2) 	{ return { 'distance' 	: [e1, e2] }; }, 
-	synonym	 	: function(e1, e2) 	{ return { 'equivalence': [e1, e2] }; }, 
+	equivalance	 	: function(e1, e2) 	{ return { 'equivalence': [e1, e2] }; }, 
 	
 	extract	 	: function(e) 		{ return { 'extract' 	: e }; }, 
 	grouped	 	: function(e) 		{ return { 'grouped' 	: e }; }, 
