@@ -1,0 +1,66 @@
+<html>
+<head>
+	<style>
+	.main {
+		width:50%;
+		height: 100%;
+	}
+	
+	.left { float: left; }
+	.right { float: right; }
+
+	textarea,
+	form,
+	span {
+		margin: 20px;
+	}
+	form * { float: right;}
+
+	</style>
+</head>
+<body style="">
+	<div style="width: 100%; text-align: center;">Hello Rhine</div>
+	<div class="main left">
+		<form onsubmit="return run();" style="text-align: right;">
+			<input type="text" name="entity1" value="cat">
+			<br><br>
+			<input type="text" name="entity2" value="dog">
+			<br><br>
+			<input type="submit" value="Submit">
+		</form>
+		<span class="clear"></span>
+	</div>
+	<div class="main right">
+		<textarea id="result" placeholder="distance"></textarea>
+	</div>
+
+	<script src="rhine.js"></script>
+	<script type="text/javascript">
+		// ENTER API KEY HERE
+		var apikey = '';
+		if(!apikey) {
+			alert('Make sure you enter your API key!')
+		}
+		
+		
+		var client = new Rhine(apikey, false);
+		
+		function onsuccess(result) {
+			console.log(result['success']['distance']);
+			document.getElementById('result').innerHTML = result['success']['distance'];
+		}
+
+		function onerror(result) {
+			alert(result);
+		}
+		
+		function run() {
+			var input1 = document.getElementsByName('entity1')[0].value;
+			var input2 = document.getElementsByName('entity2')[0].value;
+			// console.log(input1);
+			client.run(rhine.distance(rhine.entity(input1), rhine.entity(input2)), onsuccess);
+			return false;
+		}
+	</script>
+</body>
+</html>
