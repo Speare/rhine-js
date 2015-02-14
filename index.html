@@ -36,18 +36,18 @@
 
 	<script src="rhine.js"></script>
 	<script type="text/javascript">
-		// ENTER API KEY HERE
+		///////////////////////////////////////////////// ENTER API KEY HERE //////////////////////////
 		var apikey = '';
 		if(!apikey) {
-			alert('Make sure you enter your API key!')
+			alert('Make sure you enter your API key on line 40 in index.html!')
 		}
 		
 		
 		var client = new Rhine(apikey, false);
 		
 		function onsuccess(result) {
-			console.log(result['success']['distance']);
-			document.getElementById('result').innerHTML = result['success']['distance'];
+			console.log(result);
+			document.getElementById('result').innerHTML = result;
 		}
 
 		function onerror(result) {

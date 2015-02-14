@@ -12,7 +12,7 @@ Rhine.prototype.toString = function() {
 };
 
 Rhine.prototype.run = function(request, onsuccess, onerror) {
-  var k = Object.keys(request)[0];
+    var k = Object.keys(request)[0];
 	var http = new XMLHttpRequest();
 	http.open("POST", "https://api.rhine.io", true);
 	// http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
