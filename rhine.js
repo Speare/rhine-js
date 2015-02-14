@@ -50,7 +50,7 @@ Rhine.prototype.pipeline_sync = function(requests, onsucc, onerr) {
   var ks = []
   for (i = 0; i < requests.length; i++) 
   ks.push(Object.keys(requests[i]));
-  var rs = this.run({'pipelined': requests});
+  var rs = this.run_sync({'pipelined': requests});
   var x = [];
   for (i = 0; i < rs.length; i++) {
   	x.push(rs[i][ks[i]]);
