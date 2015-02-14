@@ -31,14 +31,17 @@ Rhine.prototype.run = function(request, onsuccess, onerror) {
 	}
 }
 
-Rhine.prototype.pipeline = function(requests) {
-	this.run({'pipelined' : requests})
+Rhine.prototype.pipeline = function(requests, onsucc, onerr) {
+  var ks = []
+  for (i = 0; i < requests.length; i++) 
+  ks.push(Object.keys(requests[i]));
+  this.run({'pipelined': requests}, function(d) { var x = []; for (i = 0; i < d.length; i++) { x.push(d[i][ks[i]]); }; onsucc(x); }, onerr);
 }
 
 var rhine = {
 	subclass 	: function(e1, e2) 	{ return { 'subclass' 	: [e1, e2] }; }, 
 	distance 	: function(e1, e2) 	{ return { 'distance' 	: [e1, e2] }; }, 
-	equivalance	 	: function(e1, e2) 	{ return { 'equivalence': [e1, e2] }; }, 
+	equivalence	 	: function(e1, e2) 	{ return { 'equivalence': [e1, e2] }; }, 
 	
 	extract	 	: function(e) 		{ return { 'extract' 	: e }; }, 
 	grouped	 	: function(e) 		{ return { 'grouped' 	: e }; }, 
